@@ -1,0 +1,79 @@
+generated_at: '2026-03-08'
+mode: YOLO
+project:
+  name: code
+  path: C:\Users\natha\code
+  github_org: nathalymoresco
+  github_url: https://github.com/nathalymoresco/code
+
+environment:
+  os: Windows 11
+  shell: bash
+
+tools:
+  essential:
+    git:
+      status: INSTALLED
+      version: 2.53.0.windows.1
+    gh:
+      status: INSTALLED
+      version: 2.87.3
+    node:
+      status: INSTALLED
+      version: v24.14.0
+    npm:
+      status: INSTALLED
+      version: 11.9.0
+
+  infrastructure:
+    supabase:
+      status: MISSING
+      required: RECOMMENDED
+    railway:
+      status: MISSING
+      required: OPTIONAL
+    docker:
+      status: MISSING
+      required: RECOMMENDED
+
+  quality:
+    wsl:
+      status: MISSING
+      required: RECOMMENDED
+      note: Required for CodeRabbit CLI on Windows
+    coderabbit:
+      status: MISSING
+      required: RECOMMENDED
+      note: Requires WSL first
+
+  package_managers:
+    winget:
+      status: INSTALLED
+      version: v1.28.90-preview
+
+github:
+  authenticated: true
+  account: nathalymoresco
+  protocol: https
+  token_scopes:
+    - gist
+    - read:org
+    - repo
+    - workflow
+
+git:
+  initialized: true
+  remote: https://github.com/nathalymoresco/code
+  branch: master
+  initial_commit: true
+
+post_conditions:
+  essential_clis_installed: true
+  git_initialized: true
+  github_repo_created: true
+  environment_report_generated: true
+
+recommended_next_steps:
+  - Install WSL for CodeRabbit support: wsl --install
+  - Install Docker Desktop for Supabase local dev
+  - Run '*setup-github' to configure CI/CD workflows and branch protection
