@@ -1,0 +1,76 @@
+generated_at: '2026-03-08'
+story_id: '5.10'
+
+repository:
+  url: https://github.com/nathalymoresco/code
+  owner: nathalymoresco
+  name: code
+  branch_default: master
+
+project_type: fullstack
+languages:
+  - Node.js (v20)
+  - Python (3.11)
+node_working_directory: .aiox-core
+
+workflows_installed:
+  - name: ci.yml
+    path: .github/workflows/ci.yml
+    description: Lint, TypeCheck, Test, Build (Node + Python)
+  - name: pr-automation.yml
+    path: .github/workflows/pr-automation.yml
+    description: Quality summary + coverage comment on PRs
+
+coderabbit:
+  configured: true
+  profile: balanced
+  language: pt-BR
+  config_file: .coderabbit.yaml
+  github_app_url: https://github.com/apps/coderabbitai
+
+branch_protection:
+  enabled: true
+  branch: master
+  required_status_checks:
+    - Lint
+    - TypeCheck
+    - Test
+    - Validation Summary
+  required_reviewers: 1
+  dismiss_stale_reviews: true
+  allow_force_pushes: false
+  allow_deletions: false
+
+secrets_configured:
+  - SUPABASE_URL
+  - SUPABASE_ANON_KEY
+  - SUPABASE_SERVICE_ROLE_KEY
+  - VERCEL_TOKEN
+  - VERCEL_ORG_ID
+  - VERCEL_PROJECT_ID
+secrets_skipped: false
+
+vercel:
+  project_name: code
+  project_id: prj_kgmzk9asawxfeHHsRt80uvKZNSMC
+  org_id: team_s1qIvyUlM4cmAQzPdBfhjAKg
+  linked: true
+
+supabase:
+  project_name: code
+  project_ref: csjzylpdroavjwgpufkv
+  region: South America (São Paulo)
+  url: https://csjzylpdroavjwgpufkv.supabase.co
+  linked: true
+
+validation_checklist:
+  - '[x] GitHub Actions workflows installed'
+  - '[x] CodeRabbit .coderabbit.yaml created'
+  - '[x] Branch protection enabled for master'
+  - '[ ] CodeRabbit GitHub App — install manually'
+  - '[ ] Secrets — configure when needed'
+
+next_steps:
+  - 'Install CodeRabbit GitHub App: https://github.com/apps/coderabbitai'
+  - 'Create PRs via feature branches (master is now protected)'
+  - 'Configure secrets later: Settings -> Secrets and variables -> Actions'
