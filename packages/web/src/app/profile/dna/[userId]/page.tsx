@@ -1,16 +1,63 @@
 import { createClient } from '@/lib/supabase/server';
+import type { Metadata } from 'next';
 import type { DNADimension } from '@travelmatch/shared';
 import { DNARadarChart } from '@/components/dna/dna-radar-chart';
 import { DNAProfileCard } from '@/components/dna/dna-profile-card';
+import { DnaShareSheet } from '@/components/dna/dna-share-sheet';
 import { Button } from '@/components/ui/button';
 import { Card } from '@/components/ui/card';
 import Link from 'next/link';
 
-export default async function PublicDNAPage({
-  params,
-}: {
+interface PageProps {
   params: Promise<{ userId: string }>;
-}) {
+}
+
+export async function generateMetadata({ params }: PageProps): Promise<Metadata> {
+  const { userId } = await params;
+  const supabase = await createClient();
+
+  const { data: profile } = await supabase
+    .from('profiles')
+    .select('id')
+    .eq('user_id', userId)
+    .single();
+
+  if (!profile) {
+    return { title: 'DNA de Viagem — TravelMatch' };
+  }
+
+  const { data: dna } = await supabase
+    .from('dna_profiles')
+    .select('label, label_emoji')
+    .eq('profile_id', profile.id)
+    .single();
+
+  if (!dna) {
+    return { title: 'DNA de Viagem — TravelMatch' };
+  }
+
+  const title = `${dna.label_emoji} ${dna.label} — Meu DNA de Viagem`;
+  const description = 'Descubra seu DNA de Viagem no TravelMatch!';
+  const ogImage = `/api/og/dna/${userId}`;
+
+  return {
+    title,
+    description,
+    openGraph: {
+      title,
+      description,
+      images: [{ url: ogImage, width: 1200, height: 630 }],
+    },
+    twitter: {
+      card: 'summary_large_image',
+      title,
+      description,
+      images: [ogImage],
+    },
+  };
+}
+
+export default async function PublicDNAPage({ params }: PageProps) {
   const { userId } = await params;
   const supabase = await createClient();
 
@@ -83,6 +130,12 @@ export default async function PublicDNAPage({
           </h3>
           <DNARadarChart dimensions={dimensions} />
         </Card>
+
+        <DnaShareSheet
+          userId={userId}
+          dnaLabel={dna.label}
+          dnaEmoji={dna.label_emoji}
+        />
 
         <div className="text-center">
           <Link href="/login">

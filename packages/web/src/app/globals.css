@@ -39,6 +39,7 @@
 
   --animate-radar-reveal: radar-reveal 600ms ease-out forwards;
   --animate-fade-in-up: fade-in-up 500ms ease-out forwards;
+  --animate-slide-up: slide-up 300ms ease-out forwards;
 }
 
 @keyframes radar-reveal {
@@ -56,6 +57,17 @@
   from {
     opacity: 0;
     transform: translateY(20px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+@keyframes slide-up {
+  from {
+    opacity: 0;
+    transform: translateY(100%);
   }
   to {
     opacity: 1;

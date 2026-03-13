@@ -4,6 +4,7 @@ import { getExistingDNA } from '@/app/quiz/actions';
 import type { DNADimension } from '@travelmatch/shared';
 import { DNARadarChart } from '@/components/dna/dna-radar-chart';
 import { DNAProfileCard } from '@/components/dna/dna-profile-card';
+import { DnaShareSheet } from '@/components/dna/dna-share-sheet';
 import { Card } from '@/components/ui/card';
 
 export default async function DNAResultPage() {
@@ -40,6 +41,15 @@ export default async function DNAResultPage() {
             </h3>
             <DNARadarChart dimensions={dimensions} />
           </Card>
+        </div>
+
+        {/* Share Button */}
+        <div className="animate-fade-in-up" style={{ animationDelay: '300ms', opacity: 0 }}>
+          <DnaShareSheet
+            userId={user.id}
+            dnaLabel={dna.label}
+            dnaEmoji={dna.label_emoji}
+          />
         </div>
 
         {/* Destination Teaser */}
