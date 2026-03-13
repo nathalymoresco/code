@@ -1,0 +1,331 @@
+[
+  {
+    "id": "q1-ritmo",
+    "questionIndex": 0,
+    "phase": 1,
+    "text": "Qual é o seu ritmo ideal de viagem?",
+    "type": "swipe",
+    "options": [
+      {
+        "id": "q1-zen",
+        "label": "Zen & Tranquilo",
+        "emoji": "🌿",
+        "description": "Acordar sem alarme, fluir com o dia",
+        "dimensionsAffected": { "ritmo": 20, "relax": 80, "aventura": 15 }
+      },
+      {
+        "id": "q1-moderado",
+        "label": "Moderado & Equilibrado",
+        "emoji": "⚡",
+        "description": "Mistura perfeita de passeio e descanso",
+        "dimensionsAffected": { "ritmo": 50, "relax": 50, "aventura": 50 }
+      },
+      {
+        "id": "q1-intenso",
+        "label": "Intenso & Aventureiro",
+        "emoji": "🔥",
+        "description": "Cada minuto é uma nova experiência",
+        "dimensionsAffected": { "ritmo": 85, "relax": 15, "aventura": 85 }
+      }
+    ]
+  },
+  {
+    "id": "q2-vibe",
+    "questionIndex": 1,
+    "phase": 1,
+    "text": "O que mais te atrai num destino?",
+    "type": "swipe",
+    "options": [
+      {
+        "id": "q2-praia",
+        "label": "Praia & Mar",
+        "emoji": "🏖️",
+        "description": "Pé na areia, brisa no rosto",
+        "dimensionsAffected": { "praia": 90, "natureza": 40, "urbano": 10 }
+      },
+      {
+        "id": "q2-natureza",
+        "label": "Natureza & Trilha",
+        "emoji": "🏔️",
+        "description": "Cachoeiras, matas e ar puro",
+        "dimensionsAffected": { "natureza": 90, "praia": 20, "fitness": 40 }
+      },
+      {
+        "id": "q2-urbano",
+        "label": "Urbano & Cultura",
+        "emoji": "🏙️",
+        "description": "Gastronomia, arte e vida noturna",
+        "dimensionsAffected": { "urbano": 85, "cultura": 70, "gastronomia": 50 }
+      },
+      {
+        "id": "q2-gastro",
+        "label": "Gastronomia & Imersão",
+        "emoji": "🍽️",
+        "description": "Conhecer um lugar pelo paladar",
+        "dimensionsAffected": { "gastronomia": 90, "cultura": 60, "urbano": 30 }
+      }
+    ]
+  },
+  {
+    "id": "q3-social",
+    "questionIndex": 2,
+    "phase": 1,
+    "text": "Com quem você prefere viajar?",
+    "type": "swipe",
+    "options": [
+      {
+        "id": "q3-solo",
+        "label": "Solo & Introvertido",
+        "emoji": "🧘",
+        "description": "Meu ritmo, meu silêncio, minha paz",
+        "dimensionsAffected": { "sociabilidade": 15 }
+      },
+      {
+        "id": "q3-casal",
+        "label": "A Dois",
+        "emoji": "👫",
+        "description": "Momentos a dois, memórias pra vida",
+        "dimensionsAffected": { "sociabilidade": 45 }
+      },
+      {
+        "id": "q3-familia",
+        "label": "Em Família",
+        "emoji": "👨‍👩‍👧‍👦",
+        "description": "Diversão para todas as idades",
+        "dimensionsAffected": { "sociabilidade": 65 }
+      },
+      {
+        "id": "q3-amigos",
+        "label": "Com Amigos",
+        "emoji": "🎉",
+        "description": "Quanto mais, melhor!",
+        "dimensionsAffected": { "sociabilidade": 85 }
+      }
+    ]
+  },
+  {
+    "id": "q4-essentials",
+    "questionIndex": 3,
+    "phase": 2,
+    "text": "O que não pode faltar na sua viagem? (até 3)",
+    "type": "multi-select",
+    "maxSelections": 3,
+    "options": [
+      {
+        "id": "q4-agua",
+        "label": "Água",
+        "emoji": "🏊",
+        "description": "Piscina, rio, cachoeira ou mar",
+        "dimensionsAffected": { "praia": 30, "natureza": 20 }
+      },
+      {
+        "id": "q4-trilha",
+        "label": "Trilha",
+        "emoji": "🥾",
+        "description": "Caminhar e explorar",
+        "dimensionsAffected": { "natureza": 40, "fitness": 30 }
+      },
+      {
+        "id": "q4-comida",
+        "label": "Comida",
+        "emoji": "🍽️",
+        "description": "Restaurantes e sabores locais",
+        "dimensionsAffected": { "gastronomia": 40, "cultura": 15 }
+      },
+      {
+        "id": "q4-fotos",
+        "label": "Fotos",
+        "emoji": "📸",
+        "description": "Cenários instagramáveis",
+        "dimensionsAffected": { "urbano": 20, "natureza": 20 }
+      },
+      {
+        "id": "q4-spa",
+        "label": "Spa & Bem-estar",
+        "emoji": "🧖",
+        "description": "Relaxar corpo e mente",
+        "dimensionsAffected": { "relax": 50 }
+      },
+      {
+        "id": "q4-musica",
+        "label": "Música & Festa",
+        "emoji": "🎵",
+        "description": "Vida noturna e shows",
+        "dimensionsAffected": { "sociabilidade": 30, "urbano": 25 }
+      }
+    ]
+  },
+  {
+    "id": "q5-energia",
+    "questionIndex": 4,
+    "phase": 2,
+    "text": "Qual seu nível de energia física na viagem?",
+    "type": "swipe",
+    "options": [
+      {
+        "id": "q5-tranquilo",
+        "label": "Tranquilo",
+        "emoji": "🛋️",
+        "description": "Passeios leves e muito descanso",
+        "dimensionsAffected": { "fitness": 15, "relax": 60 }
+      },
+      {
+        "id": "q5-moderado",
+        "label": "Moderado",
+        "emoji": "🚶",
+        "description": "Caminhadas e atividades leves",
+        "dimensionsAffected": { "fitness": 50, "relax": 40 }
+      },
+      {
+        "id": "q5-fitness",
+        "label": "Fitness",
+        "emoji": "🏃",
+        "description": "Trilhas, esportes e desafios",
+        "dimensionsAffected": { "fitness": 85, "aventura": 40 }
+      }
+    ]
+  },
+  {
+    "id": "q6-gastronomia",
+    "questionIndex": 5,
+    "phase": 2,
+    "text": "Comida é parte essencial da experiência?",
+    "type": "swipe",
+    "options": [
+      {
+        "id": "q6-sim",
+        "label": "Com certeza!",
+        "emoji": "🤤",
+        "description": "Viajo com o estômago como guia",
+        "dimensionsAffected": { "gastronomia": 50 }
+      },
+      {
+        "id": "q6-nao",
+        "label": "Não é prioridade",
+        "emoji": "😐",
+        "description": "Como pra viver, não vivo pra comer",
+        "dimensionsAffected": { "gastronomia": 10 }
+      }
+    ]
+  },
+  {
+    "id": "q7-cultura",
+    "questionIndex": 6,
+    "phase": 2,
+    "text": "Como você se conecta com a cultura local?",
+    "type": "swipe",
+    "options": [
+      {
+        "id": "q7-museu",
+        "label": "Museus & História",
+        "emoji": "🏛️",
+        "description": "Entender a história do lugar",
+        "dimensionsAffected": { "cultura": 70, "urbano": 20 }
+      },
+      {
+        "id": "q7-vivencia",
+        "label": "Vivências Locais",
+        "emoji": "🎭",
+        "description": "Participar de festas, mercados, tradições",
+        "dimensionsAffected": { "cultura": 60, "sociabilidade": 30 }
+      },
+      {
+        "id": "q7-pouco",
+        "label": "Só o básico",
+        "emoji": "📱",
+        "description": "Prefiro curtir do meu jeito",
+        "dimensionsAffected": { "cultura": 15 }
+      }
+    ]
+  },
+  {
+    "id": "q8-objetivo",
+    "questionIndex": 7,
+    "phase": 2,
+    "text": "Qual o objetivo principal desta viagem?",
+    "type": "swipe",
+    "options": [
+      {
+        "id": "q8-descansar",
+        "label": "Descansar",
+        "emoji": "😴",
+        "description": "Recarregar as energias",
+        "dimensionsAffected": { "relax": 60, "aventura": 10 }
+      },
+      {
+        "id": "q8-aventura",
+        "label": "Aventura",
+        "emoji": "🪂",
+        "description": "Adrenalina e novidade",
+        "dimensionsAffected": { "aventura": 70, "fitness": 30 }
+      },
+      {
+        "id": "q8-aprender",
+        "label": "Aprender",
+        "emoji": "📚",
+        "description": "Conhecer culturas e histórias",
+        "dimensionsAffected": { "cultura": 60, "gastronomia": 20 }
+      },
+      {
+        "id": "q8-mix",
+        "label": "Um pouco de tudo",
+        "emoji": "🎲",
+        "description": "Mix equilibrado",
+        "dimensionsAffected": { "relax": 30, "aventura": 30, "cultura": 30 }
+      }
+    ]
+  },
+  {
+    "id": "q9-hospedagem",
+    "questionIndex": 8,
+    "phase": 2,
+    "text": "Qual seu estilo de hospedagem ideal?",
+    "type": "swipe",
+    "options": [
+      {
+        "id": "q9-resort",
+        "label": "Resort / Hotel",
+        "emoji": "🏨",
+        "description": "Conforto e serviço completo",
+        "dimensionsAffected": { "relax": 40, "urbano": 20 }
+      },
+      {
+        "id": "q9-pousada",
+        "label": "Pousada / Airbnb",
+        "emoji": "🏡",
+        "description": "Aconchego e autenticidade",
+        "dimensionsAffected": { "cultura": 25, "natureza": 15 }
+      },
+      {
+        "id": "q9-camping",
+        "label": "Camping / Hostel",
+        "emoji": "⛺",
+        "description": "Aventura e socialização",
+        "dimensionsAffected": { "aventura": 35, "sociabilidade": 30, "fitness": 15 }
+      }
+    ]
+  },
+  {
+    "id": "q10-marOuMontanha",
+    "questionIndex": 9,
+    "phase": 2,
+    "text": "Se tivesse que escolher agora: mar ou montanha?",
+    "type": "swipe",
+    "options": [
+      {
+        "id": "q10-mar",
+        "label": "Mar",
+        "emoji": "🌊",
+        "description": "Sal na pele, horizonte infinito",
+        "dimensionsAffected": { "praia": 50, "relax": 20 }
+      },
+      {
+        "id": "q10-montanha",
+        "label": "Montanha",
+        "emoji": "⛰️",
+        "description": "Ar puro, silêncio, natureza",
+        "dimensionsAffected": { "natureza": 50, "fitness": 20 }
+      }
+    ]
+  }
+]
