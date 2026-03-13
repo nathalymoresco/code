@@ -36,4 +36,29 @@
   --color-turquoise-900: #134e4a;
 
   --font-sans: "Inter", ui-sans-serif, system-ui, sans-serif;
+
+  --animate-radar-reveal: radar-reveal 600ms ease-out forwards;
+  --animate-fade-in-up: fade-in-up 500ms ease-out forwards;
+}
+
+@keyframes radar-reveal {
+  from {
+    opacity: 0;
+    transform: scale(0.3);
+  }
+  to {
+    opacity: 1;
+    transform: scale(1);
+  }
+}
+
+@keyframes fade-in-up {
+  from {
+    opacity: 0;
+    transform: translateY(20px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
 }
