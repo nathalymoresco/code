@@ -50,6 +50,48 @@ export interface Destination {
   updated_at: string;
 }
 
+export type DestinationRegion = 'norte' | 'nordeste' | 'centro-oeste' | 'sudeste' | 'sul';
+
+export type PartnerType = 'hotel' | 'pousada' | 'airbnb' | 'guia' | 'restaurante' | 'transfer' | 'experiencia';
+
+export type ContractStatus = 'pending' | 'active' | 'inactive' | 'suspended';
+
+export type PriceRange = 'economico' | 'moderado' | 'premium';
+
+export interface Partner {
+  id: string;
+  destination_id: string;
+  name: string;
+  type: PartnerType;
+  description: string | null;
+  whatsapp: string | null;
+  email: string | null;
+  address: string | null;
+  latitude: number | null;
+  longitude: number | null;
+  price_range: PriceRange | null;
+  daily_rate: number | null;
+  rating: number;
+  review_count: number;
+  is_curated: boolean;
+  contract_status: ContractStatus;
+  cover_url: string | null;
+  photo_urls: string[];
+  amenities: string[];
+  cancellation_policy: string | null;
+  asaas_wallet_id: string | null;
+  split_percentage: number;
+  created_at: string;
+  updated_at: string;
+}
+
+export interface DestinationScore {
+  id: string;
+  destination_id: string;
+  dimension: DNADimension;
+  score: number;
+}
+
 export interface HealthResponse {
   status: 'ok' | 'error';
   timestamp: string;
