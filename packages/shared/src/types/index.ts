@@ -118,6 +118,85 @@ export interface CompatibilityResponse {
   profile_completeness: number;
 }
 
+export type PackageStatus = 'draft' | 'confirmed' | 'paid' | 'active' | 'completed' | 'cancelled';
+export type ComfortLevel = 'economico' | 'conforto' | 'premium';
+export type PackageItemType = 'transfer' | 'hospedagem' | 'passeio' | 'alimentacao' | 'seguro' | 'experiencia';
+export type PaymentMethod = 'pix' | 'credit_card' | 'boleto';
+export type PaymentStatus = 'pending' | 'confirmed' | 'overdue' | 'refunded' | 'cancelled' | 'chargeback';
+
+export interface Package {
+  id: string;
+  profile_id: string;
+  destination_id: string;
+  status: PackageStatus;
+  total_price: number;
+  markup_percentage: number;
+  start_date: string;
+  end_date: string;
+  num_travelers: number;
+  comfort_level: ComfortLevel;
+  compatibility_score: number;
+  insurance_included: boolean;
+  insurance_provider: string | null;
+  insurance_policy_number: string | null;
+  notes: string | null;
+  created_at: string;
+  updated_at: string;
+}
+
+export interface PackageItem {
+  id: string;
+  package_id: string;
+  partner_id: string | null;
+  type: PackageItemType;
+  title: string;
+  description: string | null;
+  date: string;
+  start_time: string | null;
+  end_time: string | null;
+  price: number;
+  day_number: number;
+  sort_order: number;
+  is_removable: boolean;
+  maps_url: string | null;
+  created_at: string;
+}
+
+export interface PackagePayment {
+  id: string;
+  package_id: string;
+  asaas_payment_id: string | null;
+  asaas_customer_id: string | null;
+  asaas_invoice_url: string | null;
+  method: PaymentMethod;
+  installments: number;
+  status: PaymentStatus;
+  amount: number;
+  net_amount: number | null;
+  pix_qr_code: string | null;
+  pix_copy_paste: string | null;
+  pix_expiration: string | null;
+  escrow_status: string;
+  escrow_release_date: string | null;
+  created_at: string;
+  updated_at: string;
+}
+
+export interface GeneratePackageInput {
+  destination_id: string;
+  start_date: string;
+  end_date: string;
+  num_travelers: number;
+  comfort_level: ComfortLevel;
+}
+
+export interface GeneratePackageResult {
+  package_id: string;
+  items: PackageItem[];
+  total_price: number;
+  compatibility_score: number;
+}
+
 export interface HealthResponse {
   status: 'ok' | 'error';
   timestamp: string;
