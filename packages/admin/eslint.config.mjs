@@ -14,9 +14,16 @@ export default [
   js.configs.recommended,
   ...compat.extends('next/core-web-vitals'),
   {
+    languageOptions: {
+      globals: {
+        React: 'readonly',
+        JSX: 'readonly',
+      },
+    },
     rules: {
       'no-console': 'warn',
-      'no-unused-vars': ['error', { argsIgnorePattern: '^_' }],
+      'no-unused-vars': ['error', { argsIgnorePattern: '^_', varsIgnorePattern: '^_' }],
+      'import/no-anonymous-default-export': 'off',
     },
   },
   {
