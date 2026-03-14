@@ -19,7 +19,7 @@ export async function saveQuizAnswer(questionIndex: number, answer: QuizAnswer) 
 
   if (!profile) throw new Error('Profile not found');
 
-  await supabase.from('quiz_responses').upsert(
+  const { error } = await supabase.from('quiz_responses').upsert(
     {
       profile_id: profile.id,
       question_index: questionIndex,
@@ -31,6 +31,11 @@ export async function saveQuizAnswer(questionIndex: number, answer: QuizAnswer) 
     },
     { onConflict: 'profile_id,question_index' },
   );
+
+  if (error) {
+    console.error('saveQuizAnswer error:', error);
+    throw new Error(`Failed to save answer: ${error.message}`);
+  }
 }
 
 export async function submitQuizResults(

@@ -2,7 +2,7 @@ import { type NextRequest, NextResponse } from 'next/server';
 import { updateSession } from '@/lib/supabase/middleware';
 import { createServerClient, type CookieOptions } from '@supabase/ssr';
 
-const publicRoutes = ['/', '/login', '/auth/callback', '/api/health'];
+const publicRoutes = ['/', '/login', '/auth/callback', '/api/health', '/api/payments/webhook'];
 
 function isPublicRoute(pathname: string): boolean {
   if (publicRoutes.includes(pathname)) return true;

@@ -97,7 +97,13 @@ export async function GET() {
       } satisfies CompatibilityResponse);
     }
 
-    const vectorHash = hashVector(dnaProfile.compatibility_vector);
+    // compatibility_vector comes as string from Supabase pgvector: "[1,2,3,...]"
+    const rawVector = dnaProfile.compatibility_vector;
+    const vectorArray: number[] = typeof rawVector === 'string'
+      ? rawVector.replace(/[\[\]]/g, '').split(',').map(Number)
+      : Array.isArray(rawVector) ? rawVector : [];
+
+    const vectorHash = hashVector(vectorArray);
     const completeness = dnaProfile.completeness_percentage;
 
     // Check cache
@@ -120,7 +126,7 @@ export async function GET() {
     }
 
     // Call pgvector matching RPC
-    const vectorStr = `[${dnaProfile.compatibility_vector.join(',')}]`;
+    const vectorStr = typeof rawVector === 'string' ? rawVector : `[${vectorArray.join(',')}]`;
     const { data: matches, error: matchError } = await supabase
       .rpc('match_destinations', {
         query_vector: vectorStr,
@@ -214,7 +220,8 @@ export async function GET() {
       cached: false,
       profile_completeness: completeness,
     } satisfies CompatibilityResponse);
-  } catch {
+  } catch (err) {
+    console.error('Compatibility API error:', err);
     return NextResponse.json({ error: 'Internal server error' }, { status: 500 });
   }
 }

@@ -99,8 +99,14 @@ export function QuizContainer({ questions, existingAnswers }: QuizContainerProps
       setAnswers(newAnswers);
 
       startTransition(async () => {
-        await saveQuizAnswer(currentQuestion.questionIndex, answer);
-        advanceQuestion(newAnswers);
+        try {
+          await saveQuizAnswer(currentQuestion.questionIndex, answer);
+          advanceQuestion(newAnswers);
+        } catch (err) {
+          console.error('Quiz save error:', err);
+          // Still advance even if save fails (offline-friendly)
+          advanceQuestion(newAnswers);
+        }
       });
     }
   }
@@ -132,8 +138,13 @@ export function QuizContainer({ questions, existingAnswers }: QuizContainerProps
     setSelectedOptions([]);
 
     startTransition(async () => {
-      await saveQuizAnswer(currentQuestion.questionIndex, answer);
-      advanceQuestion(newAnswers);
+      try {
+        await saveQuizAnswer(currentQuestion.questionIndex, answer);
+        advanceQuestion(newAnswers);
+      } catch (err) {
+        console.error('Quiz save error:', err);
+        advanceQuestion(newAnswers);
+      }
     });
   }
 
@@ -150,8 +161,13 @@ export function QuizContainer({ questions, existingAnswers }: QuizContainerProps
     setAnswers(newAnswers);
 
     startTransition(async () => {
-      await saveQuizAnswer(currentQuestion.questionIndex, answer);
-      advanceQuestion(newAnswers);
+      try {
+        await saveQuizAnswer(currentQuestion.questionIndex, answer);
+        advanceQuestion(newAnswers);
+      } catch (err) {
+        console.error('Quiz save error:', err);
+        advanceQuestion(newAnswers);
+      }
     });
   }
 
