@@ -25,7 +25,7 @@ interface ChecklistViewProps {
   daysUntilTrip: number;
 }
 
-const TYPE_CONFIG: Record<string, { icon: typeof AlertTriangle; label: string; color: string }> = {
+const _TYPE_CONFIG: Record<string, { icon: typeof AlertTriangle; label: string; color: string }> = {
   obrigatorio: { icon: AlertTriangle, label: 'Obrigatório', color: 'text-red-500' },
   recomendado: { icon: Lightbulb, label: 'Recomendado', color: 'text-amber-500' },
   automatico: { icon: CheckCircle2, label: 'Automático', color: 'text-green-500' },

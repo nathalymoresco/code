@@ -50,7 +50,7 @@ const STATUS_CONFIG: Record<ItemStatus, { icon: typeof CheckCircle2; label: stri
   issue: { icon: AlertTriangle, label: 'Problema', color: 'text-red-500' },
 };
 
-export function LiveItinerary({ packageId, destinationName, startDate, endDate, items }: LiveItineraryProps) {
+export function LiveItinerary({ packageId: _packageId, destinationName, startDate, endDate, items }: LiveItineraryProps) {
   const totalDays = Math.max(
     ...items.map((i) => i.day_number),
     Math.ceil((new Date(endDate).getTime() - new Date(startDate).getTime()) / 86400000),

@@ -58,8 +58,8 @@ export function ConfirmationView({
   startDate,
   endDate,
   numTravelers,
-  totalPrice,
-  packageStatus,
+  totalPrice: _totalPrice,
+  packageStatus: _packageStatus,
   payment,
 }: ConfirmationViewProps) {
   const paymentStatus = payment?.status ?? 'pending';

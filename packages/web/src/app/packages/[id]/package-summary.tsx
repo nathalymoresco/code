@@ -19,7 +19,7 @@ interface PackageSummaryProps {
   totalDays: number;
 }
 
-export function PackageSummary({ pkg, items, totalDays }: PackageSummaryProps) {
+export function PackageSummary({ pkg, items, totalDays: _totalDays }: PackageSummaryProps) {
   // Group items by type
   const grouped = items.reduce<Record<string, { items: PackageItem[]; total: number }>>((acc, item) => {
     const key = item.type;

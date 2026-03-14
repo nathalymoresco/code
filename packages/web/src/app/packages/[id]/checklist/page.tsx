@@ -78,8 +78,9 @@ export default async function ChecklistPage({
     }
   }
 
+  const nowMs = new Date().getTime();
   const daysUntilTrip = Math.ceil(
-    (new Date(pkg.start_date).getTime() - Date.now()) / 86400000,
+    (new Date(pkg.start_date).getTime() - nowMs) / 86400000,
   );
 
   return (
