@@ -1,7 +1,7 @@
 'use client';
 
 import { useState, useCallback } from 'react';
-import { AlertTriangle, Lightbulb, CheckCircle2, Circle, Loader2 } from 'lucide-react';
+import { AlertTriangle, CheckCircle2, Circle, Loader2 } from 'lucide-react';
 import { Card, CardContent } from '@/components/ui/card';
 import Link from 'next/link';
 import { Button } from '@/components/ui/button';
@@ -24,12 +24,6 @@ interface ChecklistViewProps {
   items: ChecklistItem[];
   daysUntilTrip: number;
 }
-
-const _TYPE_CONFIG: Record<string, { icon: typeof AlertTriangle; label: string; color: string }> = {
-  obrigatorio: { icon: AlertTriangle, label: 'Obrigatório', color: 'text-red-500' },
-  recomendado: { icon: Lightbulb, label: 'Recomendado', color: 'text-amber-500' },
-  automatico: { icon: CheckCircle2, label: 'Automático', color: 'text-green-500' },
-};
 
 export function ChecklistView({ packageId, destinationName, items: initialItems, daysUntilTrip }: ChecklistViewProps) {
   const [items, setItems] = useState(initialItems);
