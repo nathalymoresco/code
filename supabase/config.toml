@@ -1,8 +1,7 @@
 # Supabase Local Development Configuration
 # https://supabase.com/docs/guides/cli/config
 
-[project]
-id = "travelmatch-br"
+project_id = "travelmatch-br"
 
 [api]
 enabled = true

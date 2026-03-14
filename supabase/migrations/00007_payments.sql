@@ -9,7 +9,7 @@
 -- Package Payments — Asaas payment records
 -- ============================================================
 CREATE TABLE IF NOT EXISTS package_payments (
-  id              UUID PRIMARY KEY DEFAULT uuid_generate_v4(),
+  id              UUID PRIMARY KEY DEFAULT gen_random_uuid(),
   package_id      UUID NOT NULL REFERENCES packages(id) ON DELETE CASCADE,
   -- Asaas identifiers
   asaas_payment_id    TEXT UNIQUE,       -- Asaas payment ID (pay_...)
@@ -53,7 +53,7 @@ CREATE INDEX IF NOT EXISTS idx_payments_escrow ON package_payments(escrow_status
 -- Payment Split Items — tracks per-partner split payments
 -- ============================================================
 CREATE TABLE IF NOT EXISTS payment_split_items (
-  id              UUID PRIMARY KEY DEFAULT uuid_generate_v4(),
+  id              UUID PRIMARY KEY DEFAULT gen_random_uuid(),
   payment_id      UUID NOT NULL REFERENCES package_payments(id) ON DELETE CASCADE,
   partner_id      UUID NOT NULL REFERENCES partners(id),
   asaas_transfer_id TEXT,                -- Asaas transfer ID

@@ -9,7 +9,7 @@
 -- DNA Profiles — behavioral travel profile (10-dim vector)
 -- ============================================================
 CREATE TABLE IF NOT EXISTS dna_profiles (
-  id              UUID PRIMARY KEY DEFAULT uuid_generate_v4(),
+  id              UUID PRIMARY KEY DEFAULT gen_random_uuid(),
   profile_id      UUID NOT NULL UNIQUE REFERENCES profiles(id) ON DELETE CASCADE,
   dimensions      JSONB NOT NULL,
     -- Schema: { ritmo: 0-100, natureza: 0-100, urbano: 0-100, praia: 0-100,
@@ -46,7 +46,7 @@ CREATE INDEX IF NOT EXISTS idx_dna_vector_hnsw ON dna_profiles
 -- Quiz Responses — individual answers for resumability
 -- ============================================================
 CREATE TABLE IF NOT EXISTS quiz_responses (
-  id              UUID PRIMARY KEY DEFAULT uuid_generate_v4(),
+  id              UUID PRIMARY KEY DEFAULT gen_random_uuid(),
   profile_id      UUID NOT NULL REFERENCES profiles(id) ON DELETE CASCADE,
   question_index  SMALLINT NOT NULL,
   phase           SMALLINT NOT NULL CHECK (phase IN (1, 2)),
@@ -66,7 +66,7 @@ CREATE INDEX IF NOT EXISTS idx_quiz_responses_profile ON quiz_responses(profile_
 -- DNA History — tracks DNA evolution over time (Story 5.1)
 -- ============================================================
 CREATE TABLE IF NOT EXISTS dna_history (
-  id              UUID PRIMARY KEY DEFAULT uuid_generate_v4(),
+  id              UUID PRIMARY KEY DEFAULT gen_random_uuid(),
   profile_id      UUID NOT NULL REFERENCES profiles(id) ON DELETE CASCADE,
   dimensions      JSONB NOT NULL,
   compatibility_vector VECTOR(10) NOT NULL,

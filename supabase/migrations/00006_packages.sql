@@ -9,7 +9,7 @@
 -- Packages — assembled travel packages
 -- ============================================================
 CREATE TABLE IF NOT EXISTS packages (
-  id              UUID PRIMARY KEY DEFAULT uuid_generate_v4(),
+  id              UUID PRIMARY KEY DEFAULT gen_random_uuid(),
   profile_id      UUID NOT NULL REFERENCES profiles(id) ON DELETE CASCADE,
   destination_id  UUID NOT NULL REFERENCES destinations(id),
   status          TEXT NOT NULL DEFAULT 'draft'
@@ -46,7 +46,7 @@ CREATE INDEX IF NOT EXISTS idx_packages_dates ON packages(start_date, end_date);
 -- Package Items — individual components of a package
 -- ============================================================
 CREATE TABLE IF NOT EXISTS package_items (
-  id              UUID PRIMARY KEY DEFAULT uuid_generate_v4(),
+  id              UUID PRIMARY KEY DEFAULT gen_random_uuid(),
   package_id      UUID NOT NULL REFERENCES packages(id) ON DELETE CASCADE,
   partner_id      UUID REFERENCES partners(id),  -- nullable for generic items (seguro)
   type            TEXT NOT NULL CHECK (type IN (
@@ -77,7 +77,7 @@ CREATE INDEX IF NOT EXISTS idx_pkg_items_day ON package_items(package_id, day_nu
 -- Package Checklist Items — pre-trip checklist (Story 3.9)
 -- ============================================================
 CREATE TABLE IF NOT EXISTS package_checklist_items (
-  id              UUID PRIMARY KEY DEFAULT uuid_generate_v4(),
+  id              UUID PRIMARY KEY DEFAULT gen_random_uuid(),
   package_id      UUID NOT NULL REFERENCES packages(id) ON DELETE CASCADE,
   title           TEXT NOT NULL,
   description     TEXT,

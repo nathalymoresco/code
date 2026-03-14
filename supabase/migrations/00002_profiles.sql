@@ -6,7 +6,7 @@
 -- Rollback: DROP TABLE IF EXISTS profiles CASCADE;
 
 CREATE TABLE IF NOT EXISTS profiles (
-  id          UUID PRIMARY KEY DEFAULT uuid_generate_v4(),
+  id          UUID PRIMARY KEY DEFAULT gen_random_uuid(),
   user_id     UUID NOT NULL UNIQUE REFERENCES auth.users(id) ON DELETE CASCADE,
   full_name   TEXT,
   avatar_url  TEXT,

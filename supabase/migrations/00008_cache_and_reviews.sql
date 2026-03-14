@@ -9,7 +9,7 @@
 -- Recommendation Cache — cached matching results (TTL 24h)
 -- ============================================================
 CREATE TABLE IF NOT EXISTS recommendation_cache (
-  id              UUID PRIMARY KEY DEFAULT uuid_generate_v4(),
+  id              UUID PRIMARY KEY DEFAULT gen_random_uuid(),
   profile_id      UUID NOT NULL UNIQUE REFERENCES profiles(id) ON DELETE CASCADE,
   recommendations JSONB NOT NULL,
     -- Schema: [{ destination_id, score, match_reasons: string[] }]
@@ -28,7 +28,7 @@ CREATE INDEX IF NOT EXISTS idx_rec_cache_expires ON recommendation_cache(expires
 -- Reviews — post-trip per-item reviews (Story 4.5)
 -- ============================================================
 CREATE TABLE IF NOT EXISTS reviews (
-  id              UUID PRIMARY KEY DEFAULT uuid_generate_v4(),
+  id              UUID PRIMARY KEY DEFAULT gen_random_uuid(),
   profile_id      UUID NOT NULL REFERENCES profiles(id) ON DELETE CASCADE,
   package_id      UUID NOT NULL REFERENCES packages(id) ON DELETE CASCADE,
   partner_id      UUID REFERENCES partners(id),   -- NULL for overall package review

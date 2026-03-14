@@ -9,7 +9,7 @@
 -- Destinations — curated travel destinations (10-20 MVP)
 -- ============================================================
 CREATE TABLE IF NOT EXISTS destinations (
-  id              UUID PRIMARY KEY DEFAULT uuid_generate_v4(),
+  id              UUID PRIMARY KEY DEFAULT gen_random_uuid(),
   name            TEXT NOT NULL,
   slug            TEXT NOT NULL UNIQUE,
   description     TEXT,
@@ -56,7 +56,7 @@ CREATE INDEX IF NOT EXISTS idx_destinations_name_trgm ON destinations
 -- Destination Scores — per-dimension scores (source of truth for vector)
 -- ============================================================
 CREATE TABLE IF NOT EXISTS destination_scores (
-  id              UUID PRIMARY KEY DEFAULT uuid_generate_v4(),
+  id              UUID PRIMARY KEY DEFAULT gen_random_uuid(),
   destination_id  UUID NOT NULL REFERENCES destinations(id) ON DELETE CASCADE,
   dimension       TEXT NOT NULL CHECK (dimension IN (
     'ritmo', 'natureza', 'urbano', 'praia', 'cultura',
@@ -72,7 +72,7 @@ COMMENT ON TABLE destination_scores IS 'Per-dimension scores for destinations �
 -- Destination Weather — monthly climate data cache
 -- ============================================================
 CREATE TABLE IF NOT EXISTS destination_weather (
-  id              UUID PRIMARY KEY DEFAULT uuid_generate_v4(),
+  id              UUID PRIMARY KEY DEFAULT gen_random_uuid(),
   destination_id  UUID NOT NULL REFERENCES destinations(id) ON DELETE CASCADE,
   month           SMALLINT NOT NULL CHECK (month >= 1 AND month <= 12),
   avg_temp_c      REAL,
@@ -90,7 +90,7 @@ COMMENT ON TABLE destination_weather IS 'Monthly climate data per destination �
 -- Destination Requirements — documents, vaccines, fees
 -- ============================================================
 CREATE TABLE IF NOT EXISTS destination_requirements (
-  id              UUID PRIMARY KEY DEFAULT uuid_generate_v4(),
+  id              UUID PRIMARY KEY DEFAULT gen_random_uuid(),
   destination_id  UUID NOT NULL REFERENCES destinations(id) ON DELETE CASCADE,
   type            TEXT NOT NULL CHECK (type IN ('documento', 'vacina', 'taxa', 'equipamento', 'recomendacao')),
   title           TEXT NOT NULL,
