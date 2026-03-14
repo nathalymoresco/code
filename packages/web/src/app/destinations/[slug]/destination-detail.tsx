@@ -11,6 +11,7 @@ import { DestinationGallery } from './destination-gallery';
 import { MonthCalendar } from './month-calendar';
 import { WhyForYou } from './why-for-you';
 import { PartnerSection } from './partner-section';
+import { ClimateWidget } from './climate-widget';
 
 interface PartnerData {
   id: string;
@@ -202,6 +203,9 @@ export function DestinationDetail({ destination, scores, partners }: Destination
               )}
             </CardContent>
           </Card>
+
+          {/* Climate widget */}
+          <ClimateWidget destinationId={destination.id} destinationName={destination.name} />
 
           {/* CTA */}
           <Card className="border-turquoise-200 bg-turquoise-50">
