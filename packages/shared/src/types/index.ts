@@ -92,6 +92,32 @@ export interface DestinationScore {
   score: number;
 }
 
+export interface CompatibilityResult {
+  destination_id: string;
+  name: string;
+  slug: string;
+  description: string | null;
+  state: string;
+  city: string;
+  region: string;
+  cover_url: string | null;
+  photo_urls: string[];
+  tags: string[];
+  best_months: number[];
+  avg_daily_cost: number | null;
+  min_days: number;
+  max_days: number;
+  score: number;           // 0-100 final score
+  cosine_similarity: number; // raw cosine similarity
+  match_reasons: string[];
+}
+
+export interface CompatibilityResponse {
+  destinations: CompatibilityResult[];
+  cached: boolean;
+  profile_completeness: number;
+}
+
 export interface HealthResponse {
   status: 'ok' | 'error';
   timestamp: string;
