@@ -6,39 +6,39 @@ import type { PackageItem } from '@travelmatch/shared';
 const mockItems: PackageItem[] = [
   {
     id: 'i1', package_id: 'p1', type: 'transfer', title: 'Transfer Aeroporto',
-    description: null, day_number: 1, time_slot: 'morning', duration_minutes: 60,
+    description: null, day_number: 1, date: '2026-04-01', start_time: '10:00', end_time: '12:00',
     price: 150, partner_id: null, is_removable: false, sort_order: 1,
-    created_at: '', partner: null,
+    maps_url: null, created_at: '',
   },
   {
     id: 'i2', package_id: 'p1', type: 'hospedagem', title: 'Pousada Sol',
-    description: null, day_number: 1, time_slot: 'afternoon', duration_minutes: null,
+    description: null, day_number: 1, date: '2026-04-01', start_time: '14:00', end_time: null,
     price: 800, partner_id: 'h1', is_removable: false, sort_order: 2,
-    created_at: '', partner: null,
+    maps_url: null, created_at: '',
   },
   {
     id: 'i3', package_id: 'p1', type: 'passeio', title: 'Trilha do Mirante',
-    description: null, day_number: 2, time_slot: 'morning', duration_minutes: 180,
+    description: null, day_number: 2, date: '2026-04-02', start_time: '08:00', end_time: '11:00',
     price: 120, partner_id: 'pa1', is_removable: true, sort_order: 3,
-    created_at: '', partner: null,
+    maps_url: null, created_at: '',
   },
   {
     id: 'i4', package_id: 'p1', type: 'passeio', title: 'Passeio de Barco',
-    description: null, day_number: 3, time_slot: 'morning', duration_minutes: 240,
+    description: null, day_number: 3, date: '2026-04-03', start_time: '08:00', end_time: '12:00',
     price: 200, partner_id: 'pa2', is_removable: true, sort_order: 4,
-    created_at: '', partner: null,
+    maps_url: null, created_at: '',
   },
   {
     id: 'i5', package_id: 'p1', type: 'alimentacao', title: 'Jantar Típico',
-    description: null, day_number: 2, time_slot: 'evening', duration_minutes: 120,
+    description: null, day_number: 2, date: '2026-04-02', start_time: '19:00', end_time: '21:00',
     price: 90, partner_id: 'r1', is_removable: true, sort_order: 5,
-    created_at: '', partner: null,
+    maps_url: null, created_at: '',
   },
   {
     id: 'i6', package_id: 'p1', type: 'seguro', title: 'Seguro Viagem',
-    description: null, day_number: 1, time_slot: null, duration_minutes: null,
+    description: null, day_number: 1, date: '2026-04-01', start_time: null, end_time: null,
     price: 48, partner_id: null, is_removable: false, sort_order: 6,
-    created_at: '', partner: null,
+    maps_url: null, created_at: '',
   },
 ];
 
