@@ -100,7 +100,7 @@ export async function GET() {
     // compatibility_vector comes as string from Supabase pgvector: "[1,2,3,...]"
     const rawVector = dnaProfile.compatibility_vector;
     const vectorArray: number[] = typeof rawVector === 'string'
-      ? rawVector.replace(/[\[\]]/g, '').split(',').map(Number)
+      ? rawVector.replace(/[[\]]/g, '').split(',').map(Number)
       : Array.isArray(rawVector) ? rawVector : [];
 
     const vectorHash = hashVector(vectorArray);
