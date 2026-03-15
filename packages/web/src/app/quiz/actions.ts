@@ -63,7 +63,7 @@ export async function submitQuizResults(
   const vectorString = `[${vector.join(',')}]`;
 
   // Upsert dna_profiles
-  await supabase.from('dna_profiles').upsert(
+  const { error: upsertError } = await supabase.from('dna_profiles').upsert(
     {
       profile_id: profile.id,
       dimensions,
@@ -76,14 +76,24 @@ export async function submitQuizResults(
     { onConflict: 'profile_id' },
   );
 
+  if (upsertError) {
+    console.error('dna_profiles upsert error:', upsertError);
+    throw new Error(`Failed to save DNA profile: ${upsertError.message}`);
+  }
+
   // Insert history snapshot
-  await supabase.from('dna_history').insert({
+  const { error: historyError } = await supabase.from('dna_history').insert({
     profile_id: profile.id,
     dimensions,
     compatibility_vector: vectorString,
     label,
     source: 'quiz',
   });
+
+  if (historyError) {
+    console.error('dna_history insert error:', historyError);
+    // Non-critical — don't block the flow
+  }
 }
 
 export async function getExistingAnswers(): Promise<QuizAnswer[]> {

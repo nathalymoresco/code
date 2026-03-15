@@ -25,6 +25,7 @@ export function QuizContainer({ questions, existingAnswers }: QuizContainerProps
   const [currentIndex, setCurrentIndex] = useState(startIndex);
   const [answers, setAnswers] = useState<QuizAnswer[]>(existingAnswers);
   const [selectedOptions, setSelectedOptions] = useState<string[]>([]);
+  const [submitError, setSubmitError] = useState<string | null>(null);
 
   const maybeQuestion = questions[currentIndex];
   if (!maybeQuestion) return null;
@@ -36,36 +37,28 @@ export function QuizContainer({ questions, existingAnswers }: QuizContainerProps
     (q) => q.questionIndex === currentQuestion.questionIndex,
   );
 
-  function advanceQuestion(currentAnswers: QuizAnswer[]) {
+  async function handleAnswer(currentAnswers: QuizAnswer[]) {
     const nextIndex = currentIndex + 1;
 
-    if (nextIndex === 3 && currentAnswers.length >= 3) {
-      const result = calculateDNA(currentAnswers);
-      startTransition(async () => {
-        await submitQuizResults(
-          result.dimensions,
-          result.vector,
-          result.label,
-          result.labelEmoji,
-          1,
-        );
-        router.push('/quiz/result?phase=1');
-      });
-      return;
-    }
+    const isPhase1Done = nextIndex === 3 && currentAnswers.length >= 3;
+    const isPhase2Done = nextIndex >= questions.length;
 
-    if (nextIndex >= questions.length) {
-      const result = calculateDNA(currentAnswers);
-      startTransition(async () => {
+    if (isPhase1Done || isPhase2Done) {
+      const phaseNum = isPhase1Done ? 1 : 2;
+      try {
+        const result = calculateDNA(currentAnswers);
         await submitQuizResults(
           result.dimensions,
           result.vector,
           result.label,
           result.labelEmoji,
-          2,
+          phaseNum as 1 | 2,
         );
-        router.push('/quiz/result?phase=2');
-      });
+        router.push(`/quiz/result?phase=${phaseNum}`);
+      } catch (err) {
+        console.error('Quiz submit error:', err);
+        setSubmitError('Erro ao salvar resultado. Tente novamente.');
+      }
       return;
     }
 
@@ -97,16 +90,15 @@ export function QuizContainer({ questions, existingAnswers }: QuizContainerProps
         answer,
       ];
       setAnswers(newAnswers);
+      setSubmitError(null);
 
       startTransition(async () => {
         try {
           await saveQuizAnswer(currentQuestion.questionIndex, answer);
-          advanceQuestion(newAnswers);
         } catch (err) {
           console.error('Quiz save error:', err);
-          // Still advance even if save fails (offline-friendly)
-          advanceQuestion(newAnswers);
         }
+        await handleAnswer(newAnswers);
       });
     }
   }
@@ -136,15 +128,15 @@ export function QuizContainer({ questions, existingAnswers }: QuizContainerProps
     ];
     setAnswers(newAnswers);
     setSelectedOptions([]);
+    setSubmitError(null);
 
     startTransition(async () => {
       try {
         await saveQuizAnswer(currentQuestion.questionIndex, answer);
-        advanceQuestion(newAnswers);
       } catch (err) {
         console.error('Quiz save error:', err);
-        advanceQuestion(newAnswers);
       }
+      await handleAnswer(newAnswers);
     });
   }
 
@@ -159,20 +151,25 @@ export function QuizContainer({ questions, existingAnswers }: QuizContainerProps
       answer,
     ];
     setAnswers(newAnswers);
+    setSubmitError(null);
 
     startTransition(async () => {
       try {
         await saveQuizAnswer(currentQuestion.questionIndex, answer);
-        advanceQuestion(newAnswers);
       } catch (err) {
         console.error('Quiz save error:', err);
-        advanceQuestion(newAnswers);
       }
+      await handleAnswer(newAnswers);
     });
   }
 
   return (
     <div className="mx-auto w-full max-w-lg space-y-6">
+      {submitError && (
+        <div className="rounded-lg bg-red-50 p-3 text-center text-sm text-red-600">
+          {submitError}
+        </div>
+      )}
       <QuizProgress current={phaseIndex} total={phaseQuestions.length} phase={phase} />
 
       <div className="space-y-4">
