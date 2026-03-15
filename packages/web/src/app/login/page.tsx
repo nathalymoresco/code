@@ -1,7 +1,6 @@
 'use client';
 
 import { Suspense, useState } from 'react';
-import { useSearchParams } from 'next/navigation';
 import { Button } from '@/components/ui/button';
 import { Card } from '@/components/ui/card';
 import { Input } from '@/components/ui/input';
@@ -22,22 +21,28 @@ export default function LoginPage() {
 }
 
 function LoginForm() {
-  const searchParams = useSearchParams();
-  const oauthError = searchParams.get('error');
-
   const [mode, setMode] = useState<'login' | 'signup' | 'magic'>('login');
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
   const [loading, setLoading] = useState(false);
-  const [error, setError] = useState<string | null>(
-    oauthError === 'oauth' ? 'Erro ao conectar com provedor. Tente novamente.' : null,
-  );
-  const [magicLinkSent, setMagicLinkSent] = useState(false);
+  const [error, setError] = useState<string | null>(null);
+  const [successMessage, setSuccessMessage] = useState<string | null>(null);
+
+  async function handleOAuth(action: () => Promise<{ error?: string } | void>) {
+    setLoading(true);
+    setError(null);
+    const result = await action();
+    setLoading(false);
+    if (result && 'error' in result) {
+      setError(result.error ?? 'Erro desconhecido');
+    }
+  }
 
   async function handleEmailAuth(e: React.FormEvent<HTMLFormElement>) {
     e.preventDefault();
     setLoading(true);
     setError(null);
+    setSuccessMessage(null);
 
     const formData = new FormData();
     formData.set('email', email);
@@ -47,8 +52,11 @@ function LoginForm() {
     const result = await action(formData);
     setLoading(false);
 
-    if (result?.error) {
+    if (result && 'error' in result && result.error) {
       setError(result.error);
+    } else if (result && 'needsConfirmation' in result) {
+      setSuccessMessage('Conta criada! Verifique seu email para confirmar o cadastro.');
+      setMode('login');
     }
   }
 
@@ -66,7 +74,7 @@ function LoginForm() {
     if (result?.error) {
       setError(result.error);
     } else if (result?.success) {
-      setMagicLinkSent(true);
+      setSuccessMessage('Link de acesso enviado! Verifique sua caixa de entrada.');
     }
   }
 
@@ -78,21 +86,45 @@ function LoginForm() {
           <p className="mt-2 text-sand-600">Descubra seu DNA de Viagem</p>
         </div>
 
+        {/* Success Message */}
+        {successMessage && (
+          <div className="rounded-lg bg-turquoise-50 p-4 text-center text-turquoise-700">
+            <p className="font-medium">{successMessage}</p>
+          </div>
+        )}
+
+        {/* Global Error */}
+        {error && (
+          <div className="rounded-lg bg-red-50 p-3 text-center text-sm text-red-600">
+            {error}
+          </div>
+        )}
+
         {/* OAuth Providers */}
         <div className="space-y-3">
-          <form action={signInWithGoogle}>
-            <Button type="submit" variant="outline" className="w-full gap-2" size="lg">
-              <GoogleIcon />
-              Entrar com Google
-            </Button>
-          </form>
+          <Button
+            type="button"
+            variant="outline"
+            className="w-full gap-2"
+            size="lg"
+            disabled={loading}
+            onClick={() => handleOAuth(signInWithGoogle)}
+          >
+            <GoogleIcon />
+            Entrar com Google
+          </Button>
 
-          <form action={signInWithApple}>
-            <Button type="submit" variant="outline" className="w-full gap-2" size="lg">
-              <AppleIcon />
-              Entrar com Apple
-            </Button>
-          </form>
+          <Button
+            type="button"
+            variant="outline"
+            className="w-full gap-2"
+            size="lg"
+            disabled={loading}
+            onClick={() => handleOAuth(signInWithApple)}
+          >
+            <AppleIcon />
+            Entrar com Apple
+          </Button>
         </div>
 
         <div className="relative">
@@ -108,7 +140,7 @@ function LoginForm() {
         <div className="flex rounded-lg bg-sand-100 p-1">
           <button
             type="button"
-            onClick={() => { setMode('login'); setError(null); }}
+            onClick={() => { setMode('login'); setError(null); setSuccessMessage(null); }}
             className={`flex-1 rounded-md px-3 py-1.5 text-sm font-medium transition-colors ${
               mode === 'login' ? 'bg-white text-turquoise-700 shadow-sm' : 'text-sand-600 hover:text-sand-900'
             }`}
@@ -117,7 +149,7 @@ function LoginForm() {
           </button>
           <button
             type="button"
-            onClick={() => { setMode('signup'); setError(null); }}
+            onClick={() => { setMode('signup'); setError(null); setSuccessMessage(null); }}
             className={`flex-1 rounded-md px-3 py-1.5 text-sm font-medium transition-colors ${
               mode === 'signup' ? 'bg-white text-turquoise-700 shadow-sm' : 'text-sand-600 hover:text-sand-900'
             }`}
@@ -126,7 +158,7 @@ function LoginForm() {
           </button>
           <button
             type="button"
-            onClick={() => { setMode('magic'); setError(null); setMagicLinkSent(false); }}
+            onClick={() => { setMode('magic'); setError(null); setSuccessMessage(null); }}
             className={`flex-1 rounded-md px-3 py-1.5 text-sm font-medium transition-colors ${
               mode === 'magic' ? 'bg-white text-turquoise-700 shadow-sm' : 'text-sand-600 hover:text-sand-900'
             }`}
@@ -155,7 +187,6 @@ function LoginForm() {
               minLength={6}
               disabled={loading}
             />
-            {error && <p className="text-sm text-red-600">{error}</p>}
             <Button
               type="submit"
               className="w-full bg-turquoise-600 hover:bg-turquoise-700"
@@ -173,34 +204,24 @@ function LoginForm() {
 
         {/* Magic Link Form */}
         {mode === 'magic' && (
-          <>
-            {magicLinkSent ? (
-              <div className="rounded-lg bg-turquoise-50 p-4 text-center text-turquoise-700">
-                <p className="font-medium">Link de acesso enviado!</p>
-                <p className="mt-1 text-sm">Verifique sua caixa de entrada.</p>
-              </div>
-            ) : (
-              <form onSubmit={handleMagicLink} className="space-y-3">
-                <Input
-                  type="email"
-                  placeholder="seu@email.com"
-                  value={email}
-                  onChange={(e) => setEmail(e.target.value)}
-                  required
-                  disabled={loading}
-                />
-                {error && <p className="text-sm text-red-600">{error}</p>}
-                <Button
-                  type="submit"
-                  className="w-full bg-turquoise-600 hover:bg-turquoise-700"
-                  size="lg"
-                  disabled={loading}
-                >
-                  {loading ? 'Enviando...' : 'Enviar Magic Link'}
-                </Button>
-              </form>
-            )}
-          </>
+          <form onSubmit={handleMagicLink} className="space-y-3">
+            <Input
+              type="email"
+              placeholder="seu@email.com"
+              value={email}
+              onChange={(e) => setEmail(e.target.value)}
+              required
+              disabled={loading}
+            />
+            <Button
+              type="submit"
+              className="w-full bg-turquoise-600 hover:bg-turquoise-700"
+              size="lg"
+              disabled={loading}
+            >
+              {loading ? 'Enviando...' : 'Enviar Magic Link'}
+            </Button>
+          </form>
         )}
       </Card>
     </main>

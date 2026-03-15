@@ -10,11 +10,12 @@ export async function signInWithGoogle() {
     options: { redirectTo: `${process.env.NEXT_PUBLIC_SITE_URL}/auth/callback` },
   });
   if (error) {
-    redirect('/login?error=oauth');
+    return { error: `Google login indisponível: ${error.message}` };
   }
   if (data.url) {
     redirect(data.url);
   }
+  return { error: 'Erro inesperado ao conectar com Google' };
 }
 
 export async function signInWithApple() {
@@ -24,11 +25,12 @@ export async function signInWithApple() {
     options: { redirectTo: `${process.env.NEXT_PUBLIC_SITE_URL}/auth/callback` },
   });
   if (error) {
-    redirect('/login?error=oauth');
+    return { error: `Apple login indisponível: ${error.message}` };
   }
   if (data.url) {
     redirect(data.url);
   }
+  return { error: 'Erro inesperado ao conectar com Apple' };
 }
 
 export async function signInWithEmail(formData: FormData) {
@@ -45,6 +47,9 @@ export async function signInWithEmail(formData: FormData) {
   if (error) {
     if (error.message === 'Invalid login credentials') {
       return { error: 'Email ou senha incorretos' };
+    }
+    if (error.message.includes('Email not confirmed')) {
+      return { error: 'Email ainda não confirmado. Verifique sua caixa de entrada.' };
     }
     return { error: error.message };
   }
@@ -65,7 +70,7 @@ export async function signUpWithEmail(formData: FormData) {
   }
 
   const supabase = await createClient();
-  const { error } = await supabase.auth.signUp({
+  const { data, error } = await supabase.auth.signUp({
     email,
     password,
     options: { emailRedirectTo: `${process.env.NEXT_PUBLIC_SITE_URL}/auth/callback` },
@@ -75,9 +80,18 @@ export async function signUpWithEmail(formData: FormData) {
     if (error.message.includes('already registered')) {
       return { error: 'Este email já está cadastrado. Faça login.' };
     }
+    if (error.message.includes('rate limit')) {
+      return { error: 'Muitas tentativas. Aguarde alguns minutos.' };
+    }
     return { error: error.message };
   }
 
+  // If email confirmation is required, user won't have a session yet
+  if (data.user && !data.session) {
+    return { needsConfirmation: true };
+  }
+
+  // Auto-confirmed: redirect to onboarding
   redirect('/onboarding');
 }
 
@@ -94,6 +108,9 @@ export async function signInWithMagicLink(formData: FormData) {
   });
 
   if (error) {
+    if (error.message.includes('rate limit')) {
+      return { error: 'Muitas tentativas. Aguarde alguns minutos.' };
+    }
     return { error: error.message };
   }
 
